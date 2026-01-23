@@ -1,0 +1,35 @@
+@import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Spectral:wght@300;400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Esteban:wght@300;400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;600&display=swap");
+
+@theme {
+  /* Custom color palette */
+  --color-ink-dark: #1a2838;
+  --color-ink-medium: #3a4856;
+  --color-ink-light: #4a5866;
+  --color-paper: #f5f4f0;
+}
+
+/* Subtle serif font */
+body {
+  font-family: "Libre Baskerville", serif;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Libre Baskerville", serif;
+  font-weight: 400;
+}
+
+/* Smooth transitions */
+* {
+  transition: opacity 0.3s ease;
+}

@@ -8,7 +8,7 @@ import { SequencedTypingText } from "../components/SequencedTypingText";
 export function HomePage() {
   return (
     <PageBackground>
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 pb-16 md:pb-24 md:px-6">
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-dvh px-4 pb-16 md:pb-24 md:px-6">
 
         <Logo />
 
@@ -45,7 +45,7 @@ export function HomePage() {
 
         <div className="absolute bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 md:gap-6">
           <Fades
-            delay={1000}
+            delay={2000}
             initialOpacity={0}
             opacity={1}
             inView={true}

@@ -1,5 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;600&display=swap");
 @import "tailwindcss";
+@import "tw-animate-css";
+
 
 @theme {
   /* Custom color palette */
@@ -7,7 +9,7 @@
   --color-ink-medium: #3a4856;
   --color-ink-light: #4a5866;
   --color-paper-embossed: #c9c9c9;
-  --color-paper: #F7FCFA;
+  --color-paper: #F9FAFB;
 }
 
 /* Subtle serif font */

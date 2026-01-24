@@ -11,19 +11,27 @@ export function Logo({ src = logoImage, alt = "Zendient Labs" }: LogoProps) {
       href="https://github.com/zendient"
       target="_blank"
       rel="noopener noreferrer"
-      className="mb-8 relative block"
+      className="mb-4 md:mb-8 relative block"
     >
       <div
-        className="relative w-80 h-48 flex items-center justify-center"
+        className="relative w-32 h-32 md:w-48 md:h-48 flex items-center justify-center"
         style={{
-          maskImage: "radial-gradient(ellipse 60% 70% at center, black 50%, transparent 85%)",
-          WebkitMaskImage: "radial-gradient(ellipse 60% 70% at center, black 50%, transparent 85%)",
+          maskImage: `
+            linear-gradient(to bottom, transparent 0%, black  5%, black 96%, transparent 100%),
+            linear-gradient(to right,  transparent 0%, black 10%, black 90%, transparent 100%)
+          `,
+          WebkitMaskImage: `
+            linear-gradient(to bottom, transparent 0%, black  5%, black 96%, transparent 100%),
+            linear-gradient(to right,  transparent 0%, black 10%, black 90%, transparent 100%)
+          `,
+          maskComposite: "intersect",
+          WebkitMaskComposite: "source-in",
         }}
       >
         <img
           src={src}
           alt={alt}
-          className="w-full h-full object-contain opacity-95"
+          className="w-full h-full object-contain"
         />
       </div>
     </a>

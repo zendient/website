@@ -5,7 +5,7 @@ import { PageBackground } from "../components/PageBackground";
 
 export function HomePage() {
   return (
-    <PageBackground bgClass="bg-paper-alt" overlayOpacity="opacity-[0.04]">
+    <PageBackground>
       <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 py-12">
         <Logo />
 

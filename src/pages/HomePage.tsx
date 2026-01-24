@@ -8,7 +8,7 @@ import { SequencedTypingText } from "../components/SequencedTypingText";
 export function HomePage() {
   return (
     <PageBackground>
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 pb-24">
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 pb-16 md:pb-24 md:px-6">
 
         <Logo />
 
@@ -20,12 +20,12 @@ export function HomePage() {
             inView={true}
             transition={{ type: "tween", duration: 1.5, ease: "easeInOut" }}
           >
-            <h1 className="text-5xl md:text-6xl text-ink-dark mb-12 text-center tracking-tight">
+            <h1 className="text-3xl md:text-6xl text-ink-dark mb-6 md:mb-12 text-center tracking-tight">
               Zendient Labs
             </h1>
           </Fade>
 
-          <p className="text-lg md:text-xl text-ink-medium mb-16 max-w-md text-center leading-relaxed">
+          <p className="text-base md:text-xl text-ink-medium mb-8 md:mb-16 max-w-md text-center leading-relaxed">
             <SequencedTypingText
               texts={[
                 "Product · Development",
@@ -43,7 +43,7 @@ export function HomePage() {
           </p>
         </div>
 
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-6">
+        <div className="absolute bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 md:gap-6">
           <Fades
             delay={1000}
             initialOpacity={0}

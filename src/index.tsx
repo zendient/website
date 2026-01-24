@@ -1,12 +1,11 @@
-import React from "react";
 import { createRoot } from "react-dom/client";
 import logoImage from "./assets/zen-logo-512.png";
 import { yearToRomanNumeral } from "./utils/romanNumeral";
-import "./index.css";
+import "./styles/globals.css";
 
 function App() {
   return (
-    <div className="min-h-screen bg-[#f5f4f0] relative overflow-hidden">
+    <div className="min-h-screen bg-paper relative overflow-hidden">
       {/* Paper texture overlay */}
       <div
         className="absolute inset-0 opacity-[0.02] pointer-events-none"
@@ -35,12 +34,12 @@ function App() {
 
         <div>
             {/* Company Name */}
-            <h1 className="text-5xl md:text-6xl text-[#1a2838] mb-12 text-center tracking-tight">
+            <h1 className="text-5xl md:text-6xl text-ink-dark mb-12 text-center tracking-tight">
               Zendient Labs
             </h1>
 
             {/* Tagline */}
-            <p className="text-lg md:text-xl text-[#3a4856] mb-16 max-w-md text-center leading-relaxed">
+            <p className="text-lg md:text-xl text-ink-medium mb-16 max-w-md text-center leading-relaxed">
               Product · Development
               <br />
               Intelligently Guided
@@ -50,10 +49,10 @@ function App() {
         {/* Copyright Date */}
         <div className="absolute bottom-12 left-1/2 -translate-x-1/2">
           <p
-            className="text-sm tracking-[0.3em] text-[#e8e8e6]"
+            className="text-md font-bold tracking-[0.3em] text-paper-embossed"
             style={{
               textShadow:
-                "1px 1px 2px rgba(255, 255, 255, 0.8), -1px -1px 1px rgba(0, 0, 0, 0.05)",
+                "1px 1px 2px rgba(255, 255, 255, 0.8), -2px -2px 2px rgba(0, 0, 0, 0.05)",
             }}
           >
             {yearToRomanNumeral(2026)}

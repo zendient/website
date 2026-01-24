@@ -1,11 +1,12 @@
-@import "tailwindcss";
 @import url("https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;600&display=swap");
+@import "tailwindcss";
 
 @theme {
   /* Custom color palette */
   --color-ink-dark: #1a2838;
   --color-ink-medium: #3a4856;
   --color-ink-light: #4a5866;
+  --color-paper-embossed: #c9c9c9;
   --color-paper: #f5f4f0;
 }
 

@@ -38,6 +38,7 @@ export function HomePage() {
                 showImmediately: false,
                 persistenceDuration: 3000,
               }}
+              reserveSpace={true}
             />
           </p>
         </div>

@@ -12,6 +12,7 @@ interface SequencedTypingTextProps extends Omit<TypingTextProps, "text" | "delay
   delayOffset?: number;
   textGap?: number;
   cursor?: CursorConfig;
+  reserveSpace?: boolean; // Whether to reserve vertical space for all lines to prevent layout shift
 }
 
 /**
@@ -26,6 +27,7 @@ interface SequencedTypingTextProps extends Omit<TypingTextProps, "text" | "delay
  * @param cursor - Cursor configuration object (default: undefined, cursor disabled)
  *   - showImmediately: Show cursor right away vs wait for delayOffset (default: false)
  *   - persistenceDuration: How long cursor persists after last line finishes (ms). null = forever (default: null)
+ * @param reserveSpace - Whether to reserve vertical space for all lines to prevent layout shift (default: false)
  */
 export function SequencedTypingText({
   texts,
@@ -33,6 +35,7 @@ export function SequencedTypingText({
   delayOffset = 500,
   textGap = 0,
   cursor,
+  reserveSpace = false,
   ...typingTextProps
 }: SequencedTypingTextProps) {
   const [cursorLineIndex, setCursorLineIndex] = useState<number | null>(null);
@@ -99,7 +102,7 @@ export function SequencedTypingText({
   }, [cursorTimings]);
 
 
-  return (
+  const content = (
     <>
       {texts.map((text, index) => (
         <React.Fragment key={index}>
@@ -117,4 +120,20 @@ export function SequencedTypingText({
       ))}
     </>
   );
+
+  // If reserveSpace is enabled, wrap in a container with min-height based on line count
+  if (reserveSpace) {
+    return (
+      <span
+        style={{
+          display: 'inline-block',
+          minHeight: `${texts.length}lh`, // Uses CSS line-height units
+        }}
+      >
+        {content}
+      </span>
+    );
+  }
+
+  return content;
 }

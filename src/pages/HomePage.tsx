@@ -1,39 +1,44 @@
+import { useMemo } from "react";
 import { Logo } from "../components/Logo";
 import { SocialLink, SocialPlatform } from "../components/SocialLink";
 import { CopyrightYear } from "../components/CopyrightYear";
 import { PageBackground } from "../components/PageBackground";
-import { Fade, Fades } from "../components/animate-ui/primitives/effects/fade";
+import { Fades } from "../components/animate-ui/primitives/effects/fade";
 import { SequencedTypingText } from "../components/SequencedTypingText";
+import { getRandomHaiku } from "../utils/haiku";
 
 export function HomePage() {
+  const haiku = useMemo(() => getRandomHaiku(), []);
   return (
     <PageBackground>
       <div className="relative z-10 flex flex-col items-center justify-center min-h-dvh px-4 pb-16 md:pb-24 md:px-6">
 
-        <Logo />
-
-        <div>
-          <Fade
-            delay={0}
-            initialOpacity={0}
-            opacity={1}
-            inView={true}
-            transition={{ type: "tween", duration: 1.5, ease: "easeInOut" }}
+        <div className="flex flex-col items-center">
+          <Fades
+              delay={0}
+              initialOpacity={0}
+              opacity={1}
+              inView={true}
+              transition={{ type: "tween", duration: 2.5, ease: "easeInOut" }}
           >
-            <h1 className="text-3xl md:text-6xl text-ink-dark mb-6 md:mb-12 text-center tracking-tight">
+
+            <Logo />
+
+            <h1 className="text-5xl md:text-6xl text-ink-dark mb-6 text-center tracking-tight">
               Zendient Labs
             </h1>
-          </Fade>
 
-          <p className="text-base md:text-xl text-ink-medium mb-8 md:mb-16 max-w-md text-center leading-relaxed">
+            <span className="description-text mb-12 max-w-md block">
+              Product · Design · Development
+            </span>
+          </Fades>
+
+          <p className="description-text max-w-md">
             <SequencedTypingText
-              texts={[
-                "Product · Development",
-                "Intelligent Guidance",
-              ]}
+              texts={haiku.lines}
               keystrokeDuration={24}
-              delayOffset={1000}
-              textGap={2000}
+              delayOffset={1500}
+              textGap={1800}
               cursor={{
                 showImmediately: false,
                 persistenceDuration: 3000,

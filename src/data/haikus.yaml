@@ -1,0 +1,39 @@
+Water:
+  weight: 1
+  haikus:
+    - The Ethereal Architect: |
+        From the drift, a thought
+        Navigating turning tides
+        Swiftly, through the mist
+    - Code in Motion: |
+        Fingers dance on keys
+        Logic flows like water's path
+        Bugs dissolve like fog
+
+Air:
+  weight: 0.8
+  haikus:
+    - Mindful Creation: |
+        Empty page awaits
+        Thoughts take shape with patience
+        Design becomes art
+    - The Silent Teacher: |
+        No words, just the work
+        Each line speaks its purpose clear
+        Silence holds the truth
+
+Earth:
+  weight: 0.4
+  haikus:
+    - Shifting Sands: |
+        Sand shifts with the wind
+        Formless, yet defined
+        Each grain tells a story
+
+Fire:
+  weight: 0.3
+  haikus:
+    - Digital Harmony: |
+        Bytes and thoughts align
+        Chaos becomes structured grace
+        Order from the void

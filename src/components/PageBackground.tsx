@@ -12,7 +12,7 @@ export function PageBackground({
   children,
 }: PageBackgroundProps) {
   return (
-    <div className={`min-h-screen relative overflow-hidden ${bgClass}`}>
+    <div className={`min-h-dvh relative overflow-hidden ${bgClass}`}>
       <div
         className={`absolute inset-0 pointer-events-none ${overlayOpacity}`}
         style={{

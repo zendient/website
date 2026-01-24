@@ -1,12 +1,15 @@
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { HomePage } from "./pages/HomePage";
+import { ElementalThemeProvider } from "./components/ElementalThemeProvider";
 import "./styles/globals.css";
 
 createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-    </Routes>
+    <ElementalThemeProvider>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+      </Routes>
+    </ElementalThemeProvider>
   </BrowserRouter>
 );

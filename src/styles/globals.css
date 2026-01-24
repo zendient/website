@@ -1,13 +1,12 @@
-@import "tailwindcss";
-@import url("https://fonts.googleapis.com/css2?family=Spectral:wght@300;400;500&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Esteban:wght@300;400;500&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;600&display=swap");
+@import "tailwindcss";
 
 @theme {
   /* Custom color palette */
   --color-ink-dark: #1a2838;
   --color-ink-medium: #3a4856;
   --color-ink-light: #4a5866;
+  --color-paper-embossed: #c9c9c9;
   --color-paper: #f5f4f0;
 }
 
@@ -32,4 +31,34 @@ h6 {
 /* Smooth transitions */
 * {
   transition: opacity 0.3s ease;
+}
+
+/* LinkedIn Icon Styling */
+.linkedin-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-ink-light);
+  transition: all 0.3s ease;
+  opacity: 0.7;
+}
+
+.linkedin-icon:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* GitHub Icon Styling */
+.github-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-ink-light);
+  transition: all 0.3s ease;
+  opacity: 0.7;
+}
+
+.github-icon:hover {
+  opacity: 1;
+  transform: scale(1.1);
 }

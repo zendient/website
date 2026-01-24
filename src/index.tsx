@@ -1,6 +1,7 @@
 import { createRoot } from "react-dom/client";
-import logoImage from "./assets/zen-logo-512.png";
-import { yearToRomanNumeral } from "./utils/romanNumeral";
+import { Logo } from "./components/Logo";
+import { SocialLink, SocialPlatform } from "./components/SocialLink";
+import { CopyrightYear } from "./components/CopyrightYear";
 import "./styles/globals.css";
 
 function App() {
@@ -15,22 +16,7 @@ function App() {
       />
 
       <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 py-12">
-        {/* Logo */}
-        <div className="mb-8 relative">
-          <div
-            className="relative w-80 h-48 flex items-center justify-center"
-            style={{
-              maskImage: "radial-gradient(ellipse 60% 70% at center, black 50%, transparent 85%)",
-              WebkitMaskImage: "radial-gradient(ellipse 60% 70% at center, black 50%, transparent 85%)",
-            }}
-          >
-            <img
-              src={logoImage}
-              alt="Zendient Labs"
-              className="w-full h-full object-contain opacity-95"
-            />
-          </div>
-        </div>
+        <Logo />
 
         <div>
             {/* Company Name */}
@@ -46,19 +32,19 @@ function App() {
             </p>
         </div>
 
-        {/* Copyright Date */}
-        <div className="absolute bottom-12 left-1/2 -translate-x-1/2">
-          <p
-            className="text-md font-bold tracking-[0.3em] text-paper-embossed"
-            style={{
-              textShadow:
-                "1px 1px 2px rgba(255, 255, 255, 0.8), -2px -2px 2px rgba(0, 0, 0, 0.05)",
-            }}
-          >
-            {yearToRomanNumeral(2026)}
-          </p>
+        {/* Copyright Date and Social Links */}
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-6">
+
+          <div className="flex flex-row gap-4 mb-2">
+            <SocialLink platform={SocialPlatform.GitHub} href="https://github.com/divv/" />
+            <SocialLink platform={SocialPlatform.LinkedIn} href="https://www.linkedin.com/in/david-tout-a459b234/" />
+          </div>
+
+          <CopyrightYear year={2026} />
         </div>
+
       </div>
+
     </div>
   );
 }

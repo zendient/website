@@ -1,6 +1,11 @@
-import logoImage from "../assets/zen-logo-512.png";
+import logoImage from "../assets/zen-logo-brush-512.png";
 
-export function Logo() {
+interface LogoProps {
+  src?: string;
+  alt?: string;
+}
+
+export function Logo({ src = logoImage, alt = "Zendient Labs" }: LogoProps) {
   return (
     <a
       href="https://github.com/zendient"
@@ -16,8 +21,8 @@ export function Logo() {
         }}
       >
         <img
-          src={logoImage}
-          alt="Zendient Labs"
+          src={src}
+          alt={alt}
           className="w-full h-full object-contain opacity-95"
         />
       </div>

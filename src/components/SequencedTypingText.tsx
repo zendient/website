@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useRef } from "react";
 import { TypingText, TypingTextCursor, type TypingTextProps } from "./animate-ui/primitives/texts/typing";
 
 interface CursorConfig {
@@ -39,6 +39,8 @@ export function SequencedTypingText({
   ...typingTextProps
 }: SequencedTypingTextProps) {
   const [cursorLineIndex, setCursorLineIndex] = useState<number | null>(null);
+  const [finalCursorState, setFinalCursorState] = useState<{ lineIndex: number | null; isFinal: boolean } | null>(null);
+  const hasInitializedRef = useRef(false);
 
   // Pre-calculate all delays once
   const lineDelays = useMemo(() => {
@@ -56,7 +58,7 @@ export function SequencedTypingText({
 
     const { showImmediately = false, persistenceDuration = null } = cursor;
 
-    return texts.map((text, lineIndex) => {
+    const timings = texts.map((text, lineIndex) => {
       const isFirstLine = lineIndex === 0;
       const isLastLine = lineIndex === texts.length - 1;
       const lineDuration = text.length * keystrokeDuration;
@@ -81,26 +83,68 @@ export function SequencedTypingText({
 
       return { showTime, hideTime };
     });
+
+    // Adjust show times to avoid collisions with previous line's hide time
+    // This creates a brief gap where no cursor is visible between lines
+    for (let i = 1; i < timings.length; i++) {
+      const prevHideTime = timings[i - 1].hideTime;
+      if (prevHideTime !== null && timings[i].showTime === prevHideTime) {
+        timings[i].showTime += 1; // Add 1ms delay to create visible gap
+      }
+    }
+
+    return timings;
   }, [cursor, texts, keystrokeDuration, textGap, lineDelays]);
 
 
   /* Cursor Rendering */
   useEffect(() => {
-    if (!cursorTimings) return;
+    if (!cursorTimings || finalCursorState?.isFinal) return;
 
+    // Reset the initialization flag when timings change
+    hasInitializedRef.current = false;
     const timeouts: NodeJS.Timeout[] = [];
+    const lastLineIndex = cursorTimings.length - 1;
 
     cursorTimings.forEach(({ showTime, hideTime }, lineIndex) => {
-      timeouts.push(setTimeout(() => setCursorLineIndex(lineIndex), showTime));
+      const isLastLine = lineIndex === lastLineIndex;
+
+      // Use immediate state update for first line with showTime=0, otherwise use setTimeout
+      if (showTime === 0 && !hasInitializedRef.current) {
+        hasInitializedRef.current = true;
+        setCursorLineIndex(lineIndex);
+      } else if (showTime > 0) {
+        timeouts.push(setTimeout(() => setCursorLineIndex(lineIndex), showTime));
+      }
 
       if (hideTime !== null) {
-        timeouts.push(setTimeout(() => setCursorLineIndex(null), hideTime));
+        // Cursor has a defined hide time
+        if (isLastLine) {
+          // Last line with finite persistence - hide and mark final
+          timeouts.push(setTimeout(() => {
+            setCursorLineIndex(null);
+            setFinalCursorState({ lineIndex: null, isFinal: true });
+          }, hideTime));
+        } else {
+          // Non-last line - just let cursor hide naturally (next line will take over)
+          timeouts.push(setTimeout(() => {
+            setCursorLineIndex(null);
+          }, hideTime));
+        }
+      } else if (isLastLine) {
+        // Last line with infinite persistence - mark as final when cursor reaches it
+        timeouts.push(setTimeout(() => {
+          setFinalCursorState({ lineIndex: lastLineIndex, isFinal: true });
+        }, showTime));
       }
     });
 
     return () => timeouts.forEach(clearTimeout);
-  }, [cursorTimings]);
+  }, [cursorTimings, finalCursorState?.isFinal]);
 
+
+  // Use final cursor state if animation is complete, otherwise use current state
+  const displayCursorLineIndex = finalCursorState?.isFinal ? finalCursorState.lineIndex : cursorLineIndex;
 
   const content = (
     <>
@@ -113,7 +157,7 @@ export function SequencedTypingText({
             inView={true}
             {...typingTextProps}
           >
-            {cursorLineIndex === index && <TypingTextCursor />}
+            {cursor && <TypingTextCursor style={{ visibility: displayCursorLineIndex === index ? 'visible' : 'hidden' }} />}
           </TypingText>
           {index < texts.length - 1 && <br />}
         </React.Fragment>

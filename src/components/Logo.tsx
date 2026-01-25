@@ -11,7 +11,7 @@ export function Logo({ src = logoImage, alt = "Zendient Labs" }: LogoProps) {
       href="https://github.com/zendient"
       target="_blank"
       rel="noopener noreferrer"
-      className="mb-4 md:mb-8 relative block"
+      className="mb-6 md:mb-8 relative block"
     >
       <div
         className="relative w-32 h-32 md:w-48 md:h-48 flex items-center justify-center"

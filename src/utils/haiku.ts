@@ -4,9 +4,9 @@ import { ElementalTheme } from '../types/elemental';
 import { weightedRandomElement } from './elementalTheme';
 
 // Animation timing constants for haiku typing effect
-export const KEYSTROKE_DURATION = 24;
-export const DELAY_OFFSET = 1500;
-export const TEXT_GAP = 1800;
+export const KEYSTROKE_DURATION = 25;
+export const DELAY_OFFSET = 1600;
+export const TEXT_GAP = 2000;
 export const PERSISTENCE_DURATION = 3000;
 
 export interface Haiku {

@@ -1,16 +1,16 @@
 import { describe, it, expect, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import { SequencedTypingText } from './SequencedTypingText';
 
 // Mock the animate-ui components
 vi.mock('./animate-ui/primitives/texts/typing', () => ({
-  TypingText: ({ children, text, delay, duration, ...props }: any) => (
+  TypingText: ({ children, text, delay, duration, inView, ...props }: any) => (
     <span data-testid={`typing-text-${text}`} data-delay={delay} data-duration={duration} {...props}>
       {text}
       {children}
     </span>
   ),
-  TypingTextCursor: () => <span data-testid="cursor">|</span>,
+  TypingTextCursor: ({ style }: any) => <span data-testid="cursor" style={style}>|</span>,
 }));
 
 describe('SequencedTypingText', () => {
@@ -132,8 +132,10 @@ describe('SequencedTypingText', () => {
         />
       );
 
-      // At time 0, cursor should be on first line
-      expect(screen.getByTestId('cursor')).toBeInTheDocument();
+      // At time 0, cursor should be on first line and visible
+      const cursors = screen.getAllByTestId('cursor');
+      expect(cursors[0]).toHaveStyle({ visibility: 'visible' });
+      expect(cursors[1]).toHaveStyle({ visibility: 'hidden' });
     });
 
     it('should show cursor on correct line at correct time', () => {
@@ -147,22 +149,33 @@ describe('SequencedTypingText', () => {
         />
       );
 
-      // Initially no cursor (before delayOffset)
-      expect(screen.queryByTestId('cursor')).not.toBeInTheDocument();
+      // Initially cursor is hidden (before delayOffset)
+      const cursors = screen.getAllByTestId('cursor');
+      expect(cursors[0]).toHaveStyle({ visibility: 'hidden' });
+      expect(cursors[1]).toHaveStyle({ visibility: 'hidden' });
 
       // At 500ms, first line starts typing - cursor appears
-      vi.advanceTimersByTime(500);
-      expect(screen.getByTestId('cursor')).toBeInTheDocument();
+      act(() => {
+        vi.advanceTimersByTime(500);
+      });
+      expect(cursors[0]).toHaveStyle({ visibility: 'visible' });
+      expect(cursors[1]).toHaveStyle({ visibility: 'hidden' });
 
       // First line finishes at 500 + (3 * 100) = 800ms
       // Cursor should disappear at 800 + (200/2) = 900ms
-      vi.advanceTimersByTime(400); // Now at 900ms
-      expect(screen.queryByTestId('cursor')).not.toBeInTheDocument();
+      act(() => {
+        vi.advanceTimersByTime(400); // Now at 900ms
+      });
+      expect(cursors[0]).toHaveStyle({ visibility: 'hidden' });
+      expect(cursors[1]).toHaveStyle({ visibility: 'hidden' });
 
       // Second line cursor appears at 800 + (200/2) = 900ms (already there)
       // Should reappear immediately
-      vi.advanceTimersByTime(1); // Now at 901ms
-      expect(screen.getByTestId('cursor')).toBeInTheDocument();
+      act(() => {
+        vi.advanceTimersByTime(1); // Now at 901ms
+      });
+      expect(cursors[0]).toHaveStyle({ visibility: 'hidden' });
+      expect(cursors[1]).toHaveStyle({ visibility: 'visible' });
     });
 
     it('should persist cursor on last line when persistenceDuration is null', () => {
@@ -176,15 +189,21 @@ describe('SequencedTypingText', () => {
       );
 
       // Cursor appears at 100ms
-      vi.advanceTimersByTime(100);
-      expect(screen.getByTestId('cursor')).toBeInTheDocument();
+      act(() => {
+        vi.advanceTimersByTime(100);
+      });
+      expect(screen.getByTestId('cursor')).toHaveStyle({ visibility: 'visible' });
 
       // Text finishes at 100 + (4 * 10) = 140ms
-      vi.advanceTimersByTime(40);
+      act(() => {
+        vi.advanceTimersByTime(40);
+      });
 
-      // Cursor should still be there (persists forever)
-      vi.advanceTimersByTime(10000);
-      expect(screen.getByTestId('cursor')).toBeInTheDocument();
+      // Cursor should still be visible (persists forever)
+      act(() => {
+        vi.advanceTimersByTime(10000);
+      });
+      expect(screen.getByTestId('cursor')).toHaveStyle({ visibility: 'visible' });
     });
 
     it('should hide cursor after persistenceDuration on last line', () => {
@@ -198,16 +217,22 @@ describe('SequencedTypingText', () => {
       );
 
       // Cursor appears at 100ms
-      vi.advanceTimersByTime(100);
-      expect(screen.getByTestId('cursor')).toBeInTheDocument();
+      act(() => {
+        vi.advanceTimersByTime(100);
+      });
+      expect(screen.getByTestId('cursor')).toHaveStyle({ visibility: 'visible' });
 
       // Text finishes at 100 + (4 * 10) = 140ms
       // Cursor should hide at 140 + 500 = 640ms
-      vi.advanceTimersByTime(539); // Now at 639ms
-      expect(screen.getByTestId('cursor')).toBeInTheDocument();
+      act(() => {
+        vi.advanceTimersByTime(539); // Now at 639ms
+      });
+      expect(screen.getByTestId('cursor')).toHaveStyle({ visibility: 'visible' });
 
-      vi.advanceTimersByTime(1); // Now at 640ms
-      expect(screen.queryByTestId('cursor')).not.toBeInTheDocument();
+      act(() => {
+        vi.advanceTimersByTime(1); // Now at 640ms
+      });
+      expect(screen.getByTestId('cursor')).toHaveStyle({ visibility: 'hidden' });
     });
 
     it('should handle cursor with textGap split between lines', () => {
@@ -222,17 +247,25 @@ describe('SequencedTypingText', () => {
       );
 
       // Cursor starts on first line immediately
-      expect(screen.getByTestId('cursor')).toBeInTheDocument();
+      const cursors = screen.getAllByTestId('cursor');
+      expect(cursors[0]).toHaveStyle({ visibility: 'visible' });
+      expect(cursors[1]).toHaveStyle({ visibility: 'hidden' });
 
       // First line finishes at 0 + (2 * 100) = 200ms
       // Cursor stays for textGap/2 = 200ms more, so until 400ms
-      vi.advanceTimersByTime(400);
-      expect(screen.queryByTestId('cursor')).not.toBeInTheDocument();
+      act(() => {
+        vi.advanceTimersByTime(400);
+      });
+      expect(cursors[0]).toHaveStyle({ visibility: 'hidden' });
+      expect(cursors[1]).toHaveStyle({ visibility: 'hidden' });
 
       // Second line cursor appears at 200 + 400 - (400/2) = 400ms
       // Already at 400ms, so cursor should reappear
-      vi.advanceTimersByTime(1);
-      expect(screen.getByTestId('cursor')).toBeInTheDocument();
+      act(() => {
+        vi.advanceTimersByTime(1);
+      });
+      expect(cursors[0]).toHaveStyle({ visibility: 'hidden' });
+      expect(cursors[1]).toHaveStyle({ visibility: 'visible' });
     });
   });
 
@@ -287,12 +320,14 @@ describe('SequencedTypingText', () => {
       );
 
       // Cursor appears immediately
-      expect(screen.getByTestId('cursor')).toBeInTheDocument();
+      expect(screen.getByTestId('cursor')).toHaveStyle({ visibility: 'visible' });
 
       // Text finishes at 0 + (5 * 10) = 50ms
       // Cursor should disappear at 50 + 0 = 50ms
-      vi.advanceTimersByTime(50);
-      expect(screen.queryByTestId('cursor')).not.toBeInTheDocument();
+      act(() => {
+        vi.advanceTimersByTime(50);
+      });
+      expect(screen.getByTestId('cursor')).toHaveStyle({ visibility: 'hidden' });
     });
   });
 
@@ -318,22 +353,36 @@ describe('SequencedTypingText', () => {
       expect(line2).toHaveAttribute('data-delay', '3504');
 
       // Cursor timing:
+      const cursors = screen.getAllByTestId('cursor');
+      
       // - Appears at 1000ms (first line starts)
-      vi.advanceTimersByTime(1000);
-      expect(screen.getByTestId('cursor')).toBeInTheDocument();
+      act(() => {
+        vi.advanceTimersByTime(1000);
+      });
+      expect(cursors[0]).toHaveStyle({ visibility: 'visible' });
+      expect(cursors[1]).toHaveStyle({ visibility: 'hidden' });
 
       // - Line 1 finishes at 1504ms, cursor stays until 1504 + 1000 = 2504ms
-      vi.advanceTimersByTime(1504); // Now at 2504ms
-      expect(screen.queryByTestId('cursor')).not.toBeInTheDocument();
+      act(() => {
+        vi.advanceTimersByTime(1504); // Now at 2504ms
+      });
+      expect(cursors[0]).toHaveStyle({ visibility: 'hidden' });
+      expect(cursors[1]).toHaveStyle({ visibility: 'hidden' });
 
       // - Line 2 cursor appears at 3504 - 1000 = 2504ms (already there)
-      vi.advanceTimersByTime(1); // Now at 2505ms
-      expect(screen.getByTestId('cursor')).toBeInTheDocument();
+      act(() => {
+        vi.advanceTimersByTime(1); // Now at 2505ms
+      });
+      expect(cursors[0]).toHaveStyle({ visibility: 'hidden' });
+      expect(cursors[1]).toHaveStyle({ visibility: 'visible' });
 
       // - Line 2 finishes at 3504 + (20 * 24) = 3984ms
       // - Cursor disappears at 3984 + 3000 = 6984ms
-      vi.advanceTimersByTime(4479); // Now at 6984ms
-      expect(screen.queryByTestId('cursor')).not.toBeInTheDocument();
+      act(() => {
+        vi.advanceTimersByTime(4479); // Now at 6984ms
+      });
+      expect(cursors[0]).toHaveStyle({ visibility: 'hidden' });
+      expect(cursors[1]).toHaveStyle({ visibility: 'hidden' });
     });
   });
 });

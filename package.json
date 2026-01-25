@@ -1,6 +1,6 @@
 {
       "name": "Zendient Labs Website",
-      "version": "0.1.1",
+      "version": "0.2.0",
       "private": true,
       "dependencies": {
             "class-variance-authority": "^0.7.1",

@@ -3,7 +3,7 @@ import { ElementalTheme } from '../types/elemental';
 // Weights for each elemental theme - determines selection probability
 const ELEMENTAL_WEIGHTS: Record<ElementalTheme, number> = {
   [ElementalTheme.Water]: 1,
-  [ElementalTheme.Air]: 8,
+  [ElementalTheme.Air]: 0.8,
   [ElementalTheme.Earth]: 0.4,
   [ElementalTheme.Fire]: 0.3,
 };

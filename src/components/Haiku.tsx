@@ -5,7 +5,7 @@ export function Haiku() {
   const haiku = useHaiku();
 
   return (
-    <p className="description-text max-w-md mb-6">
+    <p className="description-text max-w-md my-6">
       <SequencedTypingText
         texts={haiku.lines}
         keystrokeDuration={KEYSTROKE_DURATION}

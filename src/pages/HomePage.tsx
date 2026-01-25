@@ -36,8 +36,6 @@ export function HomePage() {
             </span>
           </Fades>
 
-          <Haiku />
-
           <Fade
             delay={haiku.renderTime}
             initialOpacity={0}
@@ -47,6 +45,9 @@ export function HomePage() {
           >
             <ElementalIcon theme={theme} size={56} className="text-ink-dark" />
           </Fade>
+
+          <Haiku />
+
         </div>
 
         <div className="absolute bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 md:gap-6">

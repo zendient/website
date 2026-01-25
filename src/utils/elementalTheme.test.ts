@@ -1,21 +1,17 @@
 import { describe, it, expect } from 'vitest';
 import { ElementalTheme } from '../types/elemental';
-import {
-  weightedRandomElement,
-  getElementalWeight,
-  getAllElementalWeights,
-} from './elementalTheme';
+import { ElementalThemeData } from './elementalTheme';
 
-describe('elementalTheme utilities', () => {
-  describe('weightedRandomElement', () => {
+describe('ElementalThemeData', () => {
+  describe('random', () => {
     it('returns a valid ElementalTheme', () => {
-      const result = weightedRandomElement();
+      const result = ElementalThemeData.random();
       expect(Object.values(ElementalTheme)).toContain(result);
     });
 
     it('respects weights (heaviest elements should be selected most often)', () => {
       const iterations = 1000;
-      const weights = getAllElementalWeights();
+      const weights = ElementalThemeData.allWeights();
 
       // Initialize counts for all themes
       const counts: Record<string, number> = {};
@@ -24,7 +20,7 @@ describe('elementalTheme utilities', () => {
       });
 
       for (let i = 0; i < iterations; i++) {
-        const theme = weightedRandomElement();
+        const theme = ElementalThemeData.random();
         counts[theme]++;
       }
 
@@ -46,15 +42,15 @@ describe('elementalTheme utilities', () => {
       const validThemes = Object.values(ElementalTheme);
 
       for (let i = 0; i < iterations; i++) {
-        const result = weightedRandomElement();
+        const result = ElementalThemeData.random();
         expect(validThemes).toContain(result);
       }
     });
   });
 
-  describe('getAllElementalWeights', () => {
+  describe('allWeights', () => {
     it('returns weights for all ElementalTheme values', () => {
-      const weights = getAllElementalWeights();
+      const weights = ElementalThemeData.allWeights();
       const themesInEnum = Object.values(ElementalTheme);
 
       // Should have exactly as many weights as themes
@@ -67,21 +63,21 @@ describe('elementalTheme utilities', () => {
     });
 
     it('returns a copy, not a reference to the original', () => {
-      const weights1 = getAllElementalWeights();
-      const weights2 = getAllElementalWeights();
+      const weights1 = ElementalThemeData.allWeights();
+      const weights2 = ElementalThemeData.allWeights();
       expect(weights1).toEqual(weights2);
       expect(weights1).not.toBe(weights2);
     });
 
     it('returns all required theme keys', () => {
-      const weights = getAllElementalWeights();
+      const weights = ElementalThemeData.allWeights();
       Object.values(ElementalTheme).forEach((theme) => {
         expect(weights).toHaveProperty(theme);
       });
     });
 
     it('all weights are positive numbers', () => {
-      const weights = getAllElementalWeights();
+      const weights = ElementalThemeData.allWeights();
       Object.values(weights).forEach((weight) => {
         expect(typeof weight).toBe('number');
         expect(weight).toBeGreaterThan(0);
@@ -89,7 +85,7 @@ describe('elementalTheme utilities', () => {
     });
 
     it('weights and enum are in perfect sync', () => {
-      const weights = getAllElementalWeights();
+      const weights = ElementalThemeData.allWeights();
       const enumThemes = Object.values(ElementalTheme);
       const weightKeys = Object.keys(weights);
 
@@ -105,6 +101,38 @@ describe('elementalTheme utilities', () => {
 
       // Same count ensures we caught everything
       expect(weightKeys).toHaveLength(enumThemes.length);
+    });
+  });
+
+  describe('description', () => {
+    it('returns a non-empty string for each theme', () => {
+      Object.values(ElementalTheme).forEach((theme) => {
+        const description = ElementalThemeData.description(theme);
+        expect(typeof description).toBe('string');
+        expect(description.length).toBeGreaterThan(0);
+      });
+    });
+
+    it('returns theme descriptions that follow the narrative arc', () => {
+      const descriptions = Object.values(ElementalTheme).map((theme) => ({
+        theme,
+        description: ElementalThemeData.description(theme),
+      }));
+
+      descriptions.forEach(({ description }) => {
+        // Each description should contain multiple sentences or phrases
+        const parts = description.split('. ');
+        expect(parts.length).toBeGreaterThanOrEqual(2);
+      });
+    });
+  });
+
+  describe('weight', () => {
+    it('returns the correct weight for each theme', () => {
+      const allWeights = ElementalThemeData.allWeights();
+      Object.values(ElementalTheme).forEach((theme) => {
+        expect(ElementalThemeData.weight(theme)).toBe(allWeights[theme]);
+      });
     });
   });
 });

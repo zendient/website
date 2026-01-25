@@ -1,7 +1,7 @@
 import { parse } from 'yaml';
 import haikusYaml from '../data/haikus.yaml?raw';
 import { ElementalTheme } from '../types/elemental';
-import { weightedRandomElement } from './elementalTheme';
+import { ElementalThemeData } from './elementalTheme';
 
 // Animation timing constants for haiku typing effect
 export const KEYSTROKE_DURATION = 25;
@@ -46,7 +46,7 @@ function getRandomHaikuForTheme(theme: ElementalTheme): Haiku {
 }
 
 // Module-level singletons - selected once when module loads
-export const selectedTheme = weightedRandomElement();
+export const selectedTheme = ElementalThemeData.random();
 
 const selectedHaikuData = getRandomHaikuForTheme(selectedTheme);
 

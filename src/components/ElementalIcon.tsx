@@ -1,4 +1,7 @@
 import { ElementalTheme } from '../types/elemental';
+import { ElementalThemeData } from '../utils/elementalTheme';
+import { Tooltip, TooltipTrigger, TooltipContent } from './animate-ui/primitives/animate/tooltip';
+import { useIsMobile } from '../hooks/useIsMobile';
 import waterSvg from '../assets/elements/water.svg?raw';
 import airSvg from '../assets/elements/air.svg?raw';
 import earthSvg from '../assets/elements/earth.svg?raw';
@@ -19,8 +22,10 @@ const svgMap: Record<ElementalTheme, string> = {
 
 export function ElementalIcon({ theme, size = 24, className = '' }: ElementalIconProps) {
   const svgContent = svgMap[theme];
+  const description = ElementalThemeData.description(theme);
+  const isMobile = useIsMobile();
 
-  return (
+  const iconElement = (
     <div
       className={`elemental-icon inline-flex items-center justify-center ${className}`}
       style={{
@@ -36,5 +41,24 @@ export function ElementalIcon({ theme, size = 24, className = '' }: ElementalIco
       }}
       dangerouslySetInnerHTML={{ __html: svgContent }}
     />
+  );
+
+  // Disable tooltip on mobile devices
+  if (isMobile) {
+    return iconElement;
+  }
+
+  return (
+    <Tooltip side="bottom" sideOffset={16}>
+      <TooltipTrigger asChild>{iconElement}</TooltipTrigger>
+      <TooltipContent className="tooltip-content">
+        <div className="mt-2">
+          {description}
+          <div className="mt-2 pr-4 text-ink-light text-right ">
+            <span className="font-semibold">Plato</span>
+          </div>
+        </div>
+      </TooltipContent>
+    </Tooltip>
   );
 }

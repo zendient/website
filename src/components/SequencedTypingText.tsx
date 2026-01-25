@@ -157,7 +157,7 @@ export function SequencedTypingText({
             inView={true}
             {...typingTextProps}
           >
-            {displayCursorLineIndex === index && <TypingTextCursor />}
+            {cursor && <TypingTextCursor style={{ visibility: displayCursorLineIndex === index ? 'visible' : 'hidden' }} />}
           </TypingText>
           {index < texts.length - 1 && <br />}
         </React.Fragment>

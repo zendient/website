@@ -1,10 +1,10 @@
 import { describe, it, expect, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import { SequencedTypingText } from './SequencedTypingText';
 
 // Mock the animate-ui components
 vi.mock('./animate-ui/primitives/texts/typing', () => ({
-  TypingText: ({ children, text, delay, duration, ...props }: any) => (
+  TypingText: ({ children, text, delay, duration, inView, ...props }: any) => (
     <span data-testid={`typing-text-${text}`} data-delay={delay} data-duration={duration} {...props}>
       {text}
       {children}
@@ -151,17 +151,23 @@ describe('SequencedTypingText', () => {
       expect(screen.queryByTestId('cursor')).not.toBeInTheDocument();
 
       // At 500ms, first line starts typing - cursor appears
-      vi.advanceTimersByTime(500);
+      act(() => {
+        vi.advanceTimersByTime(500);
+      });
       expect(screen.getByTestId('cursor')).toBeInTheDocument();
 
       // First line finishes at 500 + (3 * 100) = 800ms
       // Cursor should disappear at 800 + (200/2) = 900ms
-      vi.advanceTimersByTime(400); // Now at 900ms
+      act(() => {
+        vi.advanceTimersByTime(400); // Now at 900ms
+      });
       expect(screen.queryByTestId('cursor')).not.toBeInTheDocument();
 
       // Second line cursor appears at 800 + (200/2) = 900ms (already there)
       // Should reappear immediately
-      vi.advanceTimersByTime(1); // Now at 901ms
+      act(() => {
+        vi.advanceTimersByTime(1); // Now at 901ms
+      });
       expect(screen.getByTestId('cursor')).toBeInTheDocument();
     });
 
@@ -176,14 +182,20 @@ describe('SequencedTypingText', () => {
       );
 
       // Cursor appears at 100ms
-      vi.advanceTimersByTime(100);
+      act(() => {
+        vi.advanceTimersByTime(100);
+      });
       expect(screen.getByTestId('cursor')).toBeInTheDocument();
 
       // Text finishes at 100 + (4 * 10) = 140ms
-      vi.advanceTimersByTime(40);
+      act(() => {
+        vi.advanceTimersByTime(40);
+      });
 
       // Cursor should still be there (persists forever)
-      vi.advanceTimersByTime(10000);
+      act(() => {
+        vi.advanceTimersByTime(10000);
+      });
       expect(screen.getByTestId('cursor')).toBeInTheDocument();
     });
 
@@ -198,15 +210,21 @@ describe('SequencedTypingText', () => {
       );
 
       // Cursor appears at 100ms
-      vi.advanceTimersByTime(100);
+      act(() => {
+        vi.advanceTimersByTime(100);
+      });
       expect(screen.getByTestId('cursor')).toBeInTheDocument();
 
       // Text finishes at 100 + (4 * 10) = 140ms
       // Cursor should hide at 140 + 500 = 640ms
-      vi.advanceTimersByTime(539); // Now at 639ms
+      act(() => {
+        vi.advanceTimersByTime(539); // Now at 639ms
+      });
       expect(screen.getByTestId('cursor')).toBeInTheDocument();
 
-      vi.advanceTimersByTime(1); // Now at 640ms
+      act(() => {
+        vi.advanceTimersByTime(1); // Now at 640ms
+      });
       expect(screen.queryByTestId('cursor')).not.toBeInTheDocument();
     });
 
@@ -226,12 +244,16 @@ describe('SequencedTypingText', () => {
 
       // First line finishes at 0 + (2 * 100) = 200ms
       // Cursor stays for textGap/2 = 200ms more, so until 400ms
-      vi.advanceTimersByTime(400);
+      act(() => {
+        vi.advanceTimersByTime(400);
+      });
       expect(screen.queryByTestId('cursor')).not.toBeInTheDocument();
 
       // Second line cursor appears at 200 + 400 - (400/2) = 400ms
       // Already at 400ms, so cursor should reappear
-      vi.advanceTimersByTime(1);
+      act(() => {
+        vi.advanceTimersByTime(1);
+      });
       expect(screen.getByTestId('cursor')).toBeInTheDocument();
     });
   });
@@ -291,7 +313,9 @@ describe('SequencedTypingText', () => {
 
       // Text finishes at 0 + (5 * 10) = 50ms
       // Cursor should disappear at 50 + 0 = 50ms
-      vi.advanceTimersByTime(50);
+      act(() => {
+        vi.advanceTimersByTime(50);
+      });
       expect(screen.queryByTestId('cursor')).not.toBeInTheDocument();
     });
   });
@@ -319,20 +343,28 @@ describe('SequencedTypingText', () => {
 
       // Cursor timing:
       // - Appears at 1000ms (first line starts)
-      vi.advanceTimersByTime(1000);
+      act(() => {
+        vi.advanceTimersByTime(1000);
+      });
       expect(screen.getByTestId('cursor')).toBeInTheDocument();
 
       // - Line 1 finishes at 1504ms, cursor stays until 1504 + 1000 = 2504ms
-      vi.advanceTimersByTime(1504); // Now at 2504ms
+      act(() => {
+        vi.advanceTimersByTime(1504); // Now at 2504ms
+      });
       expect(screen.queryByTestId('cursor')).not.toBeInTheDocument();
 
       // - Line 2 cursor appears at 3504 - 1000 = 2504ms (already there)
-      vi.advanceTimersByTime(1); // Now at 2505ms
+      act(() => {
+        vi.advanceTimersByTime(1); // Now at 2505ms
+      });
       expect(screen.getByTestId('cursor')).toBeInTheDocument();
 
       // - Line 2 finishes at 3504 + (20 * 24) = 3984ms
       // - Cursor disappears at 3984 + 3000 = 6984ms
-      vi.advanceTimersByTime(4479); // Now at 6984ms
+      act(() => {
+        vi.advanceTimersByTime(4479); // Now at 6984ms
+      });
       expect(screen.queryByTestId('cursor')).not.toBeInTheDocument();
     });
   });

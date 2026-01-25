@@ -1,42 +1,48 @@
 import { describe, it, expect } from 'vitest';
 import { ElementalTheme } from '../types/elemental';
-import { weightedRandomElement } from './haiku';
+import { useHaiku } from './haiku';
 
-describe('weightedRandomElement', () => {
-  it('returns a valid ElementalTheme', () => {
-    const result = weightedRandomElement();
-    expect(Object.values(ElementalTheme)).toContain(result);
-  });
+describe('haiku utilities', () => {
+  describe('useHaiku', () => {
+    it('returns a haiku with required properties', () => {
+      const haiku = useHaiku();
+      expect(haiku).toHaveProperty('title');
+      expect(haiku).toHaveProperty('lines');
+      expect(haiku).toHaveProperty('elementalTheme');
+      expect(haiku).toHaveProperty('renderTime');
+    });
 
-  it('respects weights (Water should be selected most often)', () => {
-    const iterations = 1000;
-    const counts: Record<string, number> = {
-      Water: 0,
-      Air: 0,
-      Earth: 0,
-      Fire: 0,
-    };
+    it('haiku lines are a 3-element array of strings', () => {
+      const haiku = useHaiku();
+      expect(Array.isArray(haiku.lines)).toBe(true);
+      expect(haiku.lines).toHaveLength(3);
+      haiku.lines.forEach((line) => {
+        expect(typeof line).toBe('string');
+        expect(line.length).toBeGreaterThan(0);
+      });
+    });
 
-    for (let i = 0; i < iterations; i++) {
-      const theme = weightedRandomElement();
-      counts[theme]++;
-    }
+    it('haiku renderTime is a positive number', () => {
+      const haiku = useHaiku();
+      expect(typeof haiku.renderTime).toBe('number');
+      expect(haiku.renderTime).toBeGreaterThan(0);
+    });
 
-    // Water weight: 1, Air weight: 0.8, Earth weight: 0.4, Fire weight: 0.3
-    // Expected ratios: Water ~42%, Air ~34%, Earth ~17%, Fire ~10%
-    // Using loose bounds to account for randomness
-    expect(counts.Water).toBeGreaterThan(counts.Air);
-    expect(counts.Air).toBeGreaterThan(counts.Earth);
-    expect(counts.Earth).toBeGreaterThan(counts.Fire);
-  });
+    it('returns the same haiku singleton on multiple calls', () => {
+      const haiku1 = useHaiku();
+      const haiku2 = useHaiku();
+      expect(haiku1).toEqual(haiku2);
+    });
 
-  it('never returns an invalid theme', () => {
-    const iterations = 100;
-    const validThemes = Object.values(ElementalTheme);
+    it('title is a non-empty string', () => {
+      const haiku = useHaiku();
+      expect(typeof haiku.title).toBe('string');
+      expect(haiku.title.length).toBeGreaterThan(0);
+    });
 
-    for (let i = 0; i < iterations; i++) {
-      const result = weightedRandomElement();
-      expect(validThemes).toContain(result);
-    }
+    it('elementalTheme is valid', () => {
+      const haiku = useHaiku();
+      expect(Object.values(ElementalTheme)).toContain(haiku.elementalTheme);
+    });
   });
 });

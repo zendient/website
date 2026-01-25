@@ -8,8 +8,8 @@ export class ElementalThemeData {
   private static readonly WEIGHTS: Record<ElementalTheme, number> = {
     [ElementalTheme.Water]: 1,
     [ElementalTheme.Air]: 0.8,
-    [ElementalTheme.Earth]: 0.4,
-    [ElementalTheme.Fire]: 0.3,
+    [ElementalTheme.Earth]: 0.6,
+    [ElementalTheme.Fire]: 0.5,
   };
 
   // Zen descriptions following the Narrative Arc structure

@@ -14,7 +14,7 @@ export function HomePage() {
 
   return (
     <PageBackground>
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-dvh px-4 pb-12 md:pb-20 md:px-6">
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-dvh px-4 pb-8 md:pb-20 md:px-6">
 
         <div className="flex flex-col items-center">
           <Fades
@@ -31,28 +31,30 @@ export function HomePage() {
               Zendient Labs
             </h1>
 
-            <span className="description-text mb-12 max-w-md block">
+            <span className="description-text mb-8 max-w-md block">
               Product · Design · Development
             </span>
           </Fades>
 
-          <Fade
-            delay={haiku.renderTime}
-            initialOpacity={0}
-            opacity={1}
-            inView={true}
-            transition={{ type: "tween", duration: 2, ease: "easeInOut" }}
-          >
-            <ElementalIcon theme={theme} size={56} className="text-ink-dark" />
-          </Fade>
+          <div className="flex flex-col items-center gap-6">
+            <Fade
+              delay={haiku.renderTime * 0.15}
+              initialOpacity={0}
+              opacity={1}
+              inView={true}
+              transition={{ type: "tween", duration: (haiku.renderTime * 0.85) / 1000, ease: "easeInOut" }}
+            >
+              <ElementalIcon theme={theme} size={72} className="text-ink-dark" />
+            </Fade>
 
-          <Haiku />
+            <Haiku />
+          </div>
 
         </div>
 
-        <div className="absolute bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 md:gap-6">
+        <div className="absolute bottom-4 md:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 md:gap-6">
           <Fades
-            delay={2000}
+            delay={haiku.renderTime + 1500}
             initialOpacity={0}
             opacity={1}
             inView={true}

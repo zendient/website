@@ -6,7 +6,7 @@ import { motion, type HTMLMotionProps } from 'motion/react';
 import {
   useIsInView,
   type UseIsInViewOptions,
-} from '@/hooks/use-is-in-view';
+} from '@/hooks/useIsInView';
 import { Slot, type WithAsChild } from '@/components/animate-ui/primitives/animate/slot';
 
 type FadeProps = WithAsChild<

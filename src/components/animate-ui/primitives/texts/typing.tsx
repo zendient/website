@@ -6,7 +6,7 @@ import { motion, type HTMLMotionProps } from 'motion/react';
 import {
   useIsInView,
   type UseIsInViewOptions,
-} from '@/hooks/use-is-in-view';
+} from '@/hooks/useIsInView';
 import { getStrictContext } from '@/lib/get-strict-context';
 
 type TypingTextContextType = {

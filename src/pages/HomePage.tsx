@@ -6,7 +6,7 @@ import { Fade, Fades } from "../components/animate-ui/primitives/effects/fade";
 import { Haiku } from "../components/Haiku";
 import { ElementalIcon } from "../components/ElementalIcon";
 import { useHaiku } from "../utils/haiku";
-import { useElementalTheme } from "../components/ElementalThemeProvider";
+import { useElementalTheme } from "../hooks/useElementalTheme";
 
 export function HomePage() {
   const haiku = useHaiku();

@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { ElementalThemeProvider, useElementalTheme } from './ElementalThemeProvider';
+import { ElementalThemeProvider } from './ElementalThemeProvider';
+import { useElementalTheme } from '../hooks/useElementalTheme';
 import { ElementalTheme } from '../types/elemental';
 
 // Test component that uses the hook

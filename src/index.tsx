@@ -1,18 +1,13 @@
 import { createRoot } from "react-dom/client";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { HomePage } from "./pages/HomePage";
-import { ElementalThemeProvider } from "./components/ElementalThemeProvider";
-import { TooltipProvider } from "./components/animate-ui/primitives/animate/tooltip";
+import { BrowserRouter } from "react-router-dom";
+import ReactGA from "react-ga4";
 import "./styles/globals.css";
+import App from "./App";
+
+ReactGA.initialize(import.meta.env.VITE_GTM_ID_ZENDIENT_COM!);
 
 createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
-    <ElementalThemeProvider>
-      <TooltipProvider openDelay={400} closeDelay={200}>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-        </Routes>
-      </TooltipProvider>
-    </ElementalThemeProvider>
+    <App />
   </BrowserRouter>
 );

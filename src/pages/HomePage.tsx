@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Logo } from "../components/Logo";
 import { SocialLink, SocialPlatform } from "../components/SocialLink";
 import { CopyrightYear } from "../components/CopyrightYear";
@@ -52,14 +53,14 @@ export function HomePage() {
 
         </div>
 
-        <div className="absolute bottom-4 md:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 md:gap-6">
-          <Fades
-            delay={haiku.renderTime + 1500}
-            initialOpacity={0}
-            opacity={1}
-            inView={true}
-            transition={{ type: "tween", duration: 1.2, ease: "easeInOut" }}
-          >
+        <Fades
+          delay={haiku.renderTime + 1500}
+          initialOpacity={0}
+          opacity={1}
+          inView={true}
+          transition={{ type: "tween", duration: 1.2, ease: "easeInOut" }}
+        >
+          <div className="absolute bottom-4 md:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 md:gap-6">
             <div className="flex flex-row gap-4 mb-2">
               <SocialLink platform={SocialPlatform.GitHub} href="https://github.com/divv/" />
               <SocialLink
@@ -69,9 +70,12 @@ export function HomePage() {
             </div>
 
             <CopyrightYear year={2026} />
-          </Fades>
-        </div>
 
+            <p className="text-xs text-paper-embossed/60 hover:text-paper-embossed/90 transition-colors">
+              Zendient Labs · <Link to="/privacy-policy" className="underline">Privacy Policy</Link>
+            </p>
+          </div>
+        </Fades>
       </div>
     </PageBackground>
   );

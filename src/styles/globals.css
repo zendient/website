@@ -65,6 +65,21 @@ h6 {
   transform: scale(1.1);
 }
 
+/* Home Icon Styling */
+.home-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-ink-light);
+  transition: all 0.3s ease;
+  opacity: 0.7;
+}
+
+.home-icon:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
 /* Description text utility */
 .description-text {
   @apply text-lg md:text-xl text-ink-medium text-center leading-relaxed;

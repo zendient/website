@@ -1,7 +1,5 @@
-import { Link } from "react-router-dom";
 import { Logo } from "../components/Logo";
-import { SocialLink, SocialPlatform } from "../components/SocialLink";
-import { CopyrightYear } from "../components/CopyrightYear";
+import { Footer } from "../components/Footer";
 import { PageBackground } from "../components/PageBackground";
 import { Fade, Fades } from "../components/animate-ui/primitives/effects/fade";
 import { Haiku } from "../components/Haiku";
@@ -15,9 +13,9 @@ export function HomePage() {
 
   return (
     <PageBackground>
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-dvh px-4 pb-8 md:pb-20 md:px-6">
+      <div className="relative z-10 flex flex-col items-center h-dvh overflow-hidden px-4 md:px-6">
 
-        <div className="flex flex-col items-center">
+        <div className="flex-1 flex flex-col items-center justify-center">
           <Fades
               delay={0}
               initialOpacity={0}
@@ -50,32 +48,10 @@ export function HomePage() {
 
             <Haiku />
           </div>
-
         </div>
 
-        <Fades
-          delay={haiku.renderTime + 1500}
-          initialOpacity={0}
-          opacity={1}
-          inView={true}
-          transition={{ type: "tween", duration: 1.2, ease: "easeInOut" }}
-        >
-          <div className="absolute bottom-4 md:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 md:gap-6">
-            <div className="flex flex-row gap-4 mb-2">
-              <SocialLink platform={SocialPlatform.GitHub} href="https://github.com/divv/" />
-              <SocialLink
-                platform={SocialPlatform.LinkedIn}
-                href="https://www.linkedin.com/in/david-tout-a459b234/"
-              />
-            </div>
+        <Footer />
 
-            <CopyrightYear year={2026} />
-
-            <p className="text-xs text-paper-embossed/60 hover:text-paper-embossed/90 transition-colors">
-              Zendient Labs · <Link to="/privacy-policy" className="underline">Privacy Policy</Link>
-            </p>
-          </div>
-        </Fades>
       </div>
     </PageBackground>
   );

@@ -1,17 +1,14 @@
-import { Link } from "react-router-dom";
 import { Logo } from "../components/Logo";
-import { SocialLink, SocialPlatform } from "../components/SocialLink";
-import { HomeLink } from "../components/HomeLink";
-import { CopyrightYear } from "../components/CopyrightYear";
+import { Footer } from "../components/Footer";
 import { PageBackground } from "../components/PageBackground";
 
 export function PrivacyPolicy() {
   return (
     <PageBackground>
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-dvh px-4 pb-8 md:pb-20 md:px-6 mb-6">
+      <div className="relative z-10 flex flex-col items-center min-h-dvh px-4 md:px-6">
 
         {/* Header Section */}
-        <div className="flex flex-col items-center mb-12 md:mb-16">
+        <div className="flex flex-col items-center mb-12 md:mb-16 mt-8 md:mt-12">
           <Logo />
           <h1 className="text-4xl md:text-5xl text-ink-dark mb-2 text-center tracking-tight">
             Zendient Labs
@@ -22,7 +19,7 @@ export function PrivacyPolicy() {
         </div>
 
         {/* Policy Content */}
-        <div className="max-w-3xl w-full space-y-8 mb-32 md:mb-40">
+        <div className="max-w-3xl w-full space-y-8">
 
           {/* Introduction */}
           <section>
@@ -171,23 +168,7 @@ export function PrivacyPolicy() {
 
         </div>
 
-        {/* Footer */}
-        <div className="absolute bottom-4 md:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 md:gap-6">
-          <div className="flex flex-row gap-4 mb-2">
-            <HomeLink />
-            <SocialLink platform={SocialPlatform.GitHub} href="https://github.com/divv/" />
-            <SocialLink
-              platform={SocialPlatform.LinkedIn}
-              href="https://www.linkedin.com/in/david-tout-a459b234/"
-            />
-          </div>
-
-          <CopyrightYear year={2026} />
-
-          <p className="text-xs text-paper-embossed/60 hover:text-paper-embossed/90 transition-colors">
-              Zendient Labs · <Link to="/privacy-policy" className="underline">Privacy Policy</Link>
-            </p>
-        </div>
+        <Footer />
 
       </div>
     </PageBackground>
